@@ -5,13 +5,15 @@ import com.chris.app.repository.BookRepository;
 import com.chris.app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
+// @RestController do not work
 @RequestMapping("/books")
 public class BookController {
 
@@ -22,14 +24,15 @@ public class BookController {
     private BookRepository bookRepository;
 
     @GetMapping
-    public List<Book> findAll() {
-        return bookService.findAll();
+    public String findAll(Model model) {
+        model.addAttribute("books", bookService.findAll());
+        return "books";
     }
 
     @GetMapping("/{id}")
     public Book getBook(@PathVariable Long id) {
         Optional<Book> byId = bookRepository.findById(id);
-        return byId.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No customer found with this id"));
+        return byId.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No book found with this id"));
     }
 
     @PostMapping
