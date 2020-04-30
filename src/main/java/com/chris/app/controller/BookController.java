@@ -35,9 +35,15 @@ public class BookController {
         return byId.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No book found with this id"));
     }
 
-    @PostMapping
-    public Book saveBook(@RequestBody Book book) {
-        return bookRepository.save(book);
+    @GetMapping("/add-book")
+    public String saveBook(Model model) {
+        model.addAttribute("newBook", new Book());
+        return "add-book";
+    }
+    @PostMapping("/saveBook")
+    public String saveBook(Book book) {
+        bookRepository.save(book);
+        return "redirect:/books";
     }
 
     @PutMapping("/{id}")
