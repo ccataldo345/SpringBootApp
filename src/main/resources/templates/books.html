@@ -42,10 +42,10 @@
             <td th:text="${book.getIsbn()}"></td>
             <td>
                 <div class="btn-group">
-                    <a th:href="@{'/book/{id}'(id=${book.getId()})}">
+                    <a th:href="@{'/books/{id}'(id=${book.getId()})}">
                         <button type="button" class="btn btn-warning">Edit</button>
                     </a>
-                    <form th:action="@{'/book/{id}/delete'(id=${book.getId()})}" method="post">
+                    <form th:action="@{'/books/{id}/delete'(id=${book.getId()})}" method="post">
                         <input type="hidden">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>

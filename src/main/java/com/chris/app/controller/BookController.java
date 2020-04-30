@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @Controller
-// @RestController do not work
 @RequestMapping("/books")
 public class BookController {
 
@@ -29,6 +28,7 @@ public class BookController {
         return "books";
     }
 
+    @ResponseBody
     @GetMapping("/{id}")
     public Book getBook(@PathVariable Long id) {
         Optional<Book> byId = bookRepository.findById(id);
@@ -49,9 +49,10 @@ public class BookController {
         return bookRepository.save(byId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable Long id) {
+    @PostMapping("/{id}/delete")
+    public String deleteBook(@PathVariable Long id) {
         bookRepository.deleteById(id);
+        return "redirect:/books";
     }
 }
 
