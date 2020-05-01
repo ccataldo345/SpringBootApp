@@ -4,55 +4,54 @@ import com.chris.app.entity.Book;
 import com.chris.app.repository.BookRepository;
 import com.chris.app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
 public class BookController {
 
     @Autowired
-    private BookService bookService;
+    private BookRepository bookRepository;
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @GetMapping
     public String findAll(Model model) {
-        model.addAttribute("books", bookService.findAll());
+        model.addAttribute("books", bookRepository.findAll());
         return "books";
     }
 
-    @ResponseBody
     @GetMapping("/{id}")
-    public Book getBook(@PathVariable Long id) {
-        Optional<Book> byId = bookRepository.findById(id);
-        return byId.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No book found with this id"));
+    public String getBook(@PathVariable Long id, Model model) {
+        Book book = bookService.getBook(id);
+        model.addAttribute("book", book);
+        return "edit-book";
     }
 
-    @GetMapping("/add-book")
-    public String saveBook(Model model) {
-        model.addAttribute("newBook", new Book());
-        return "add-book";
-    }
-    @PostMapping("/saveBook")
-    public String saveBook(Book book) {
-        bookRepository.save(book);
+    @PostMapping("/{id}")
+    public String updateBook(@PathVariable("id") Long id, @ModelAttribute Book book, Model model) {
+        Book editBook = bookService.getBook(id);
+        editBook.setTitle(book.getTitle());
+        editBook.setIsbn(book.getIsbn());
+        editBook.setAuthor(book.getAuthor());
+        book = bookRepository.save(editBook);
+        model.addAttribute("book", book);
         return "redirect:/books";
     }
 
-    @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
-        Book byId = getBook(id);
-        byId.setTitle(book.getTitle());
-        byId.setAuthor(book.getAuthor());
-        byId.setIsbn(book.getIsbn());
-        return bookRepository.save(byId);
+    @GetMapping("/add-book")
+    public String addBook(Model model) {
+        model.addAttribute("newBook", new Book());
+        return "add-book";
+    }
+
+    @PostMapping("/add-book")
+    public String addBook(Book book) {
+        bookRepository.save(book);
+        return "redirect:/books";
     }
 
     @PostMapping("/{id}/delete")
