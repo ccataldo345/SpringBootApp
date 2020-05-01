@@ -27,7 +27,7 @@
 
     <h2>Add book</h2>
 
-    <form th:action="@{'/books/add-book'}" th:object="${newBook}" method="post">
+    <form th:action="@{'/books'}" th:object="${newBook}" method="post">
         <div class="form-group">
             <label for="title">Title</label>
             <input name="title" type="text" class="form-control" id="title" placeholder="Title">
