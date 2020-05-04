@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -38,7 +35,7 @@ public class BookController {
     }
 
     @PostMapping("/{id}")
-    public String updateBook(@PathVariable Long id, @Valid Book book, BindingResult bindingResult, Model model) {
+    public String updateBook(@PathVariable Long id, @Valid @ModelAttribute("book") Book book, BindingResult bindingResult, Model model) {
         Book editBook = bookService.getBook(id);
         editBook.setTitle(book.getTitle());
         editBook.setIsbn(book.getIsbn());
@@ -51,12 +48,12 @@ public class BookController {
 
     @GetMapping("/add-book")
     public String addBook(Model model) {
-        model.addAttribute("newBook", new Book());
+        model.addAttribute("book", new Book());
         return "add-book";
     }
 
     @PostMapping("/add-book")
-    public String addBook(@Valid Book book, BindingResult bindingResult) {
+    public String addBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "/add-book";
         bookRepository.save(book);
         return "redirect:/books";

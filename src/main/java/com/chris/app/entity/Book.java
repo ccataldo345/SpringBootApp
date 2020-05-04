@@ -22,7 +22,7 @@ public class Book {
     @Size(max = 50, message="Please do not exceed 30 characters.")
     private String author;
 
-    @Size(min = 14, max = 14, message="Must have 14 characters.")
+    @Size(min = 14, max = 14, message="ISBN must have 14 characters.")
     private String isbn;
 
 }
