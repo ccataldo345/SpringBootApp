@@ -6,10 +6,13 @@ import com.chris.app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/books")
@@ -35,11 +38,12 @@ public class BookController {
     }
 
     @PostMapping("/{id}")
-    public String updateBook(@PathVariable Long id, Book book, Model model) {
+    public String updateBook(@PathVariable Long id, @Valid Book book, BindingResult bindingResult, Model model) {
         Book editBook = bookService.getBook(id);
         editBook.setTitle(book.getTitle());
         editBook.setIsbn(book.getIsbn());
         editBook.setAuthor(book.getAuthor());
+        if (bindingResult.hasErrors()) return "/edit-book";
         book = bookRepository.save(editBook);
         model.addAttribute("book", book);
         return "redirect:/books";
@@ -51,8 +55,9 @@ public class BookController {
         return "add-book";
     }
 
-    @PostMapping
-    public String addBook(Book book) {
+    @PostMapping("/add-book")
+    public String addBook(@Valid Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "/add-book";
         bookRepository.save(book);
         return "redirect:/books";
     }
