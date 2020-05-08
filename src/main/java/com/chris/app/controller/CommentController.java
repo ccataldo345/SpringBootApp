@@ -39,10 +39,14 @@ public class CommentController {
         return "comments";
     }
 
-/*        @PostMapping("/{id}/comments")
-        public String addComment (@Valid @ModelAttribute Comment comment, BindingResult bindingResult){
-            if (bindingResult.hasErrors()) return "/add-comment";
-            commentRepository.save(comment);
-            return "redirect:/books";
-        }*/
+/*    @PostMapping("/{id}/comments")
+    public String addComment(@PathVariable Long id, @Valid @ModelAttribute Comment comment, BindingResult bindingResult, Model model) {
+        Book book = bookService.getBook(id);
+        model.addAttribute("book", book);
+        model.addAttribute("comments", new Comment());
+        comment.setDate(new Date());
+        if (bindingResult.hasErrors()) return "/{id}/comments";
+        commentRepository.save(comment);
+        return "/{id}/comments";
+    }*/
 }

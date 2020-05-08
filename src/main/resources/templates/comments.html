@@ -28,28 +28,43 @@
     <h2>Comments</h2>
 
     <h4>
+        "
         <td th:text="${book.getTitle()}"></td>
-        - by
+        "
+        by
         <td th:text="${book.getAuthor()}"></td>
         (
         <td th:text="${book.getIsbn()}"></td>
         )
     </h4>
 
-    <table class="table table-striped">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Comment</th>
-            <th scope="col">Date</th>
-        </tr>
-        <tr th:each="comment : ${comments}"></th>
-            <th scope="row" th:text="${comment.getId()}"></th>
-            <td th:text="${comment.getCtext()}"></td>
-            <td th:text="${#dates.format(comment.getDate(), 'dd-MM-yyyy HH:mm:ss')}"></td>
-        </tr>
-    </table>
+    <div class="row">
+        <div class="col-sm-4">
+            <form action="/books/{id}/comments" method="post">
+                <div class="form-group">
+                    <label></label>
+                    <textarea name="text" class="form-control" rows="6"
+                              placeholder="Write your comment here."></textarea>
+                    </br>
+                    <button type="submit" class="btn btn-warning float-left">Add comment</button>
+                </div>
+            </form>
+        </div>
 
-    <a class="btn btn-warning float-left" href="/books/{id}/comments">Add comment</a>
+        <div class="col-sm-8">
+            </br>
+            <table class="table table-striped">
+                <tr>
+                    <th scope="col">Comment</th>
+                    <th scope="col">Date</th>
+                </tr>
+                <tr th:each="comment : ${comments}"></th>
+                    <td th:text="${comment.getCtext()}"></td>
+                    <td th:text="${#dates.format(comment.getDate(), 'dd-MM-yyyy HH:mm:ss')}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
 </div>
 
