@@ -42,6 +42,9 @@
             <td th:text="${book.getIsbn()}"></td>
             <td>
                 <div class="btn-group">
+                    <a th:href="@{'/books/{id}/comments'(id=${book.getId()})}">
+                        <button type="button" class="btn btn-info">Comments</button>
+                    </a>
                     <a th:href="@{'/books/{id}'(id=${book.getId()})}">
                         <button type="button" class="btn btn-warning">Edit</button>
                     </a>

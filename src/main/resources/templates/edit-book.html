@@ -46,7 +46,7 @@
                    th:value="${book.getIsbn()}">
             <p style="color:red;" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"/>
         </div>
-        <button type="submit" class="btn btn-warning float-right">Update</button>
+        <button type="submit" class="btn btn-warning float-left">Update</button>
     </form>
 
 </div>

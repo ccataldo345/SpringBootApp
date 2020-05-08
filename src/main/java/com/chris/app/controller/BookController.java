@@ -35,7 +35,7 @@ public class BookController {
     }
 
     @PostMapping("/{id}")
-    public String updateBook(@PathVariable Long id, @Valid @ModelAttribute("book") Book book, BindingResult bindingResult, Model model) {
+    public String updateBook(@PathVariable Long id, @Valid @ModelAttribute Book book, BindingResult bindingResult, Model model) {
         Book editBook = bookService.getBook(id);
         editBook.setTitle(book.getTitle());
         editBook.setIsbn(book.getIsbn());
@@ -53,7 +53,7 @@ public class BookController {
     }
 
     @PostMapping("/add-book")
-    public String addBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult) {
+    public String addBook(@Valid @ModelAttribute Book book, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "/add-book";
         bookRepository.save(book);
         return "redirect:/books";

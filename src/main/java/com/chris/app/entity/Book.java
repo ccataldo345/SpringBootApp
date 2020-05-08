@@ -2,11 +2,9 @@ package com.chris.app.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,6 +22,11 @@ public class Book {
 
     @Size(min = 14, max = 14, message="ISBN must have 14 characters.")
     private String isbn;
+
+    @OneToMany
+    @JoinColumn(name = "book_id")
+    @Size(max = 50, message="Please do not exceed 50 characters.")
+    private List<Comment> comments;
 
 }
 
