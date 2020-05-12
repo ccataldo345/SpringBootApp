@@ -11,7 +11,7 @@ import java.util.List;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Size(max = 50, message="Please do not exceed 50 characters.")
@@ -23,7 +23,7 @@ public class Book {
     @Size(min = 14, max = 14, message="ISBN must have 14 characters.")
     private String isbn;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id")
     @Size(max = 50, message="Please do not exceed 50 characters.")
     private List<Comment> comments;

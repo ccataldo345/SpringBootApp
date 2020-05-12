@@ -12,10 +12,10 @@ import java.util.Date;
 @Data
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    private String ctext;
+    private String commentText;
     private Date date;
 
 }

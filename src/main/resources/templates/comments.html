@@ -40,11 +40,23 @@
 
     <div class="row">
         <div class="col-sm-4">
-            <form action="/books/{id}/comments" method="post">
+
+<!--            <form th:action="@{'/books/{id}/comments' (id=${book.getId()})}" th:object="${comment}" method="post">
                 <div class="form-group">
                     <label></label>
-                    <textarea name="text" class="form-control" rows="6"
+                    <textarea th:field="*{commentText}" name="text" class="form-control" rows="6"
                               placeholder="Write your comment here."></textarea>
+                    <p style="color:red;" th:if="${#fields.hasErrors('commentText')}" th:errors="*{commentText}" />
+                    </br>
+                    <button type="submit" class="btn btn-warning float-left">Add comment</button>
+                </div>
+            </form>-->
+
+            <form th:action="@{'/books/{id}/comments'(id=${book.getId()})}" th:object="${comment}" method="post">
+                <div class="form-group">
+                    <label for="value">Comment</label>
+                    <textarea th:field="*{commentText}" name="text" class="form-control" id="value" rows="6"
+                              placeholder="Comment"></textarea>
                     </br>
                     <button type="submit" class="btn btn-warning float-left">Add comment</button>
                 </div>
@@ -59,8 +71,8 @@
                     <th scope="col">Date</th>
                 </tr>
                 <tr th:each="comment : ${comments}"></th>
-                    <td th:text="${comment.getCtext()}"></td>
-                    <td th:text="${#dates.format(comment.getDate(), 'dd-MM-yyyy HH:mm:ss')}"></td>
+                    <td th:text="${comment.getCommentText()}"></td>
+                    <td th:text="${#dates.format(comment.getDate(), 'dd-MM-yyyy HH:mm')}"></td>
                 </tr>
             </table>
         </div>
