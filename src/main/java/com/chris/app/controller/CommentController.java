@@ -40,7 +40,6 @@ public class CommentController {
 
     @PostMapping("/{id}/comments")
     public String addComment(@PathVariable Long id, @Valid @ModelAttribute Comment comment, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) return id + "/comments";
         Book book = bookService.getBook(id);
         List<Comment> comments = book.getComments();
         if (comments == null) {
@@ -50,6 +49,7 @@ public class CommentController {
         comment = commentRepository.save(comment);
         comments.add(comment);
         book.setComments(comments);
+        if (bindingResult.hasErrors()) return "redirect:/comments";
         bookRepository.save(book);
         model.addAttribute("book", book);
         model.addAttribute("comment", new Comment());
