@@ -49,7 +49,7 @@ public class CommentController {
         comment = commentRepository.save(comment);
         comments.add(comment);
         book.setComments(comments);
-        if (bindingResult.hasErrors()) return "redirect:/comments";
+        if (bindingResult.hasErrors()) return "/comments";
         bookRepository.save(book);
         model.addAttribute("book", book);
         model.addAttribute("comment", new Comment());

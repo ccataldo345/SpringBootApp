@@ -44,8 +44,8 @@
             <form th:action="@{'/books/{id}/comments'(id=${book.getId()})}" th:object="${comment}" method="post">
                 <div class="form-group">
                     <label></label>
-                    <textarea th:field="*{commentText}" name="text" class="form-control" rows="6"
-                              placeholder="Write your comment here."></textarea>
+                    <textarea th:field="*{commentText}" name="text" class="form-control" rows="6" maxlength="50"
+                              placeholder="Write your comment here (max 50 characters)."></textarea>
                     <p style="color:red;" th:if="${#fields.hasErrors('commentText')}" th:errors="*{commentText}"/>
                     </br>
                     <button type="submit" class="btn btn-warning float-left">Add comment</button>
@@ -62,7 +62,7 @@
                 </tr>
                 <tr th:each="comment : ${comments}"></th>
                     <td th:text="${comment.getCommentText()}"></td>
-                    <td th:text="${#dates.format(comment.getDate(), 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:text="${#dates.format(comment.getDate(), 'dd-MM-yyyy HH:mm:ss')}"></td>
                 </tr>
             </table>
         </div>
