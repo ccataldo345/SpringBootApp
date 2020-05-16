@@ -40,7 +40,7 @@ public class BookController {
         editBook.setTitle(book.getTitle());
         editBook.setIsbn(book.getIsbn());
         editBook.setAuthor(book.getAuthor());
-        if (bindingResult.hasErrors()) return "/edit-book";
+        if (bindingResult.hasErrors()) return "edit-book";
         book = bookRepository.save(editBook);
         model.addAttribute("book", book);
         return "redirect:/books";
@@ -54,7 +54,7 @@ public class BookController {
 
     @PostMapping("/add-book")
     public String addBook(@Valid @ModelAttribute Book book, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "/add-book";
+        if (bindingResult.hasErrors()) return "add-book";
         bookRepository.save(book);
         return "redirect:/books";
     }

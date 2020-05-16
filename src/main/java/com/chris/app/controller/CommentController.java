@@ -46,10 +46,10 @@ public class CommentController {
             comments = new ArrayList<>();
         }
         comment.setDate(new Date());
+        if (bindingResult.hasErrors()) return "/comments";
         comment = commentRepository.save(comment);
         comments.add(comment);
         book.setComments(comments);
-        if (bindingResult.hasErrors()) return "/comments";
         bookRepository.save(book);
         model.addAttribute("book", book);
         model.addAttribute("comment", new Comment());

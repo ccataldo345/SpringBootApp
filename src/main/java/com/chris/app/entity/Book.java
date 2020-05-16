@@ -17,7 +17,7 @@ public class Book {
     @Size(max = 50, message="Please do not exceed 50 characters.")
     private String title;
 
-    @Size(max = 50, message="Please do not exceed 30 characters.")
+    @Size(max = 30, message="Please do not exceed 30 characters.")
     private String author;
 
     @Size(min = 14, max = 14, message="ISBN must have 14 characters.")
@@ -25,7 +25,6 @@ public class Book {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id")
-    @Size(max = 50, message="Please do not exceed 50 characters.")
     private List<Comment> comments;
 
 }
